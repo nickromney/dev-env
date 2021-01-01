@@ -13,11 +13,13 @@ I use Vagrant to boot a base box from Vagrant Cloud, and provision it using the 
 ### Currently supported operating systems
 * _Centos 7_
 * _Ubuntu 16.04_
+* _Ubuntu 18.04_
+* _Ubuntu 20.04_
 * _Arch Linux_
 
 ## Dependencies
 * [__VirtualBox (version 6.0.4)__](https://www.virtualbox.org/wiki/Downloads)
-* [__vagrant (version 2.2.3)__](https://www.vagrantup.com) 
+* [__vagrant (version 2.2.3)__](https://www.vagrantup.com)
 * __vagrant-vbguest__ (optional, but recommended) - run ```vagrant plugin install vagrant-vbguest```
     * This automatically mounts the latest VirtualBox Guest Additions on the guest system, if it is not already mounted.
     * Optional, but if you do not want to use it, you need to install the Guest Additions manually, and make sure you keep up to date with its newest releases.
@@ -33,8 +35,10 @@ I use Vagrant to boot a base box from Vagrant Cloud, and provision it using the 
 
 ## Configuration
 To configure the operationg system you want to use, set the 'BOX_NAME' variable in the Vagrantfile to one of the following strings:
-* "centos/7" (default)
+* "centos/7"
 * "ubuntu/xenial64"
+* "ubuntu/bionic64"
+* "ubuntu/focal64" (default)
 * "archlinux/archlinux"
 
 Visit [Vagrant Cloud](https://app.vagrantup.com/boxes/search) for more information.

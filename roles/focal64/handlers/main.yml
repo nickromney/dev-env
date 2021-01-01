@@ -1,0 +1,5 @@
+---
+# handlers file for focal64
+
+- name: reboot
+  command: reboot

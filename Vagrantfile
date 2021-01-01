@@ -7,9 +7,11 @@ require './scripts/helpers.rb'
 VAGRANTFILE_API_VERSION = "2"
 
 # The name of the Vagrant Cloud box to use
-BOX_NAME = "centos/7"
+#BOX_NAME = "centos/7"
 #BOX_NAME = "ubuntu/xenial64"
 #BOX_NAME = "archlinux/archlinux"
+#BOX_NAME = "ubuntu/bionic64"
+BOX_NAME = "ubuntu/focal64"
 
 # Configure the Vagrant box
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -22,8 +24,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Network settings
-  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-  config.vm.network "private_network", ip: "172.16.0.100"
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 443, host: 8443
+  config.vm.network "private_network", ip: "192.168.195.10"
 
   # Virtualbox settings provider
 #  config.vm.provider "virtualbox" do |vb|
@@ -35,7 +38,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #
 #   end
 
-  config.vm.synced_folder ".", "/vagrant", type: "smb"
+# Comment out SMB share
+#  config.vm.synced_folder ".", "/vagrant", type: "smb"
 
   config.vm.provider "hyperv" do |h|
     h.memory = 4096
@@ -49,7 +53,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Run the ansible playbook
   config.vm.provision "bootstrap-phase2", type: "ansible_local" do | ansible |
     ansible.galaxy_role_file = 'requirements.yml'
-    ansible.galaxy_command = 'ansible-galaxy install --role-file %{role_file}'
+    ansible.galaxy_roles_path = '/etc/ansible/roles'
+    ansible.galaxy_command = 'ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path}'
     ansible.playbook = 'devbox.yml'
     ansible.extra_vars = {
       role_name: get_ansible_role(BOX_NAME),

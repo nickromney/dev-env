@@ -1,0 +1,7 @@
+---
+# tasks file for focal64
+
+- name: install necessary packages
+  apt:
+    name: ['wget', 'git', 'curl']
+    state: present
